@@ -1,0 +1,88 @@
+project:
+  type: book
+  output-dir: _book
+
+book:
+  title: "Congrio Dorado 2027"
+  author:
+    - name: "{{< var autores.principal >}}"
+      affiliation: "Instituto de Fomento Pesquero (IFOP)"
+    - name: "{{< var autores.coautores >}}"
+      affiliation: "Instituto de Fomento Pesquero (IFOP)"
+  date: "{{< var anio >}}"
+  date-format: "YYYY"
+  language: es
+
+  chapters:
+    - index.qmd               # Resumen ejecutivo (sin número)
+    - 02_objetivos.qmd
+    - 03_antecedentes.qmd
+    - 04_demersal.qmd         # Lagos a la de Magallanes y de la Antártica Chilena
+    - 05_fup.qmd              # Fuera de la Unidad de Pesquería
+    - 06_referencias.qmd
+
+  appendices:
+    - anexos.qmd
+
+  navbar:
+    background: "#00467F"              # azul IFOP
+    logo: "img/Logos/ifop-pez-bl-opt.png"
+    logo-alt: "Logo IFOP"
+
+  sidebar:
+    style: "docked"
+    search: true
+    collapse-level: 2    # muestra H2 en el sidebar; usar 1 para solo capítulos
+
+bibliography:
+  - ref/ling_estatus.bib
+csl: ref/elsevier-harvard.csl
+
+format:
+  pdf:
+    documentclass: book
+    classoption: [12pt, oneside, openany]
+    papersize: letter
+    toc: true
+    toc-depth: 3
+    toc-title: "Índice"
+    number-sections: true
+    colorlinks: true
+    lang: es
+    pdf-engine: lualatex
+    include-in-header:
+      - styles/doc-settings.tex
+    include-before-body:
+      - styles/portada-completa.tex
+    include-after-body:
+      - styles/contraportada-ifop.tex
+    keep-tex: false
+    latex-auto-install: false
+    geometry:
+      - top=4cm
+      - bottom=2.5cm
+      - left=3cm
+      - right=2.5cm
+    fig-pos: "H"
+    fig-cap-location: bottom
+    tbl-cap-location: top
+    fig-width: 6
+    fig-height: 4
+    out-width: "100%"
+
+  html:
+    theme: cosmo
+    css: styles/styles-html.css        # estilos IFOP solo para HTML
+    toc: true
+    toc-depth: 3
+    toc-title: "Contenidos"
+    number-sections: true
+    lang: es
+    embed-resources: false
+
+execute:
+  echo: false      # no muestra el código R en el documento
+  warning: false   # suprime advertencias de R
+  message: false   # suprime mensajes de R (ej. los de library())
+  cache: true      # cachea resultados de chunks para no re-ejecutar si no cambian
+  freeze: auto     # usa resultados guardados si

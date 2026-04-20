@@ -1,0 +1,10 @@
+## Resultados
+
+<!-- Orquestador de resultados — FUP                              -->
+<!-- Descomentar e incluir archivos a medida que se desarrollen:  -->
+<!--                                                              -->
+<!-- {{< include 05b1_fup-cpue.qmd >}}                           -->
+<!-- {{< include 05b2_fup-assess.qmd >}}                         -->
+<!-- {{< include 05b3_fup-sensibilidad.qmd >}}                   -->
+<!-- {{< include 05b4_fup-retro.qmd >}}                          -->
+<!-- {{< include 05b5_fup-proj.qmd >}}                           -->

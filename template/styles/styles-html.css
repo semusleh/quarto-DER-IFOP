@@ -1,0 +1,95 @@
+/* ============================================================
+   styles-html.css — Estilo HTML IFOP
+   Aplica solo a la versión HTML del libro Quarto.
+   No afecta la salida PDF.
+   ============================================================ */
+
+/* --- Barra de navegación superior (navbar) ----------------- */
+.navbar {
+  background-color: #00467F !important;   /* azul IFOP */
+  border-bottom: 3px solid #5B9BD5;       /* línea celeste IFOP */
+}
+
+/* Título del libro en la navbar */
+.navbar-brand,
+.navbar .navbar-brand {
+  color: #FFFFFF !important;
+  font-weight: bold;
+  font-size: 1.6rem;
+}
+
+/* Links de la navbar */
+.navbar-nav .nav-link {
+  color: #FFFFFF !important;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #5B9BD5 !important;
+}
+
+/* --- Logo en la navbar ------------------------------------ */
+.navbar-logo {
+  max-height: 50px;
+  margin-right: 12px;
+}
+
+/* --- Panel lateral (sidebar) ----------------------------- */
+.sidebar {
+  border-right: 1px solid #BDBDBD;
+  background-color: #F7F9FC;
+}
+
+.sidebar-title {
+  color: #00467F;
+  font-weight: bold;
+  font-size: 0.95rem;
+  border-bottom: 2px solid #5B9BD5;
+  padding-bottom: 6px;
+  margin-bottom: 10px;
+}
+
+/* Links activos en el sidebar */
+.sidebar-item-text.sidebar-link.active {
+  color: #00467F !important;
+  font-weight: bold;
+}
+
+/* --- Títulos de sección ---------------------------------- */
+h1, h2 {
+  color: #00467F;
+  border-bottom: 1px solid #BDBDBD;
+  padding-bottom: 4px;
+}
+
+h3, h4 {
+  color: #333333;
+}
+
+/* --- Tabla de contenidos flotante (TOC) ------------------ */
+#TOC .nav-link.active {
+  color: #00467F;
+  border-left: 3px solid #00467F;
+  font-weight: bold;
+}
+
+/* --- Tablas ---------------------------------------------- */
+table {
+  font-size: 0.9rem;
+}
+
+thead tr {
+  background-color: #00467F;
+  color: #FFFFFF;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #EEF3F9;
+}
+
+/* --- Pie de página --------------------------------------- */
+.nav-footer {
+  background-color: #F0F4F9;
+  border-top: 2px solid #00467F;
+  font-size: 0.8rem;
+  color: #666666;
+}

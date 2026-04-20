@@ -1,0 +1,206 @@
+% ============================================================
+% header.tex — Estilo interior IFOP (encabezado, pie, títulos)
+% Referencia: Documento Técnico Asesoría Gestión Técnica 2026
+% ============================================================
+
+% --- Paquetes -----------------------------------------------
+\usepackage{fontspec}       % fuentes del sistema (LuaLaTeX)
+\usepackage{microtype}      % mejora tipográfica (tracking, kerning)
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{parskip}
+\usepackage{ragged2e}       % \justifying
+\usepackage{pdfpages}       % para incluir portada gráfica externa
+\usepackage{tikz}           % posicionamiento de texto sobre imagen de portada
+\usetikzlibrary{calc}
+\usepackage{eso-pic}        % imagen de fondo página completa
+
+
+
+% --- Suprimir página de título automática de Quarto/LaTeX ---
+\AtBeginDocument{\renewcommand{\maketitle}{}}
+
+% --- Colores de hipervínculos -------------------------------------------
+% linkcolor: TOC y referencias cruzadas internas → negro (sin destacar)
+% urlcolor:  direcciones web → azul IFOP
+% citecolor: citas bibliográficas → azul oscuro
+\AtBeginDocument{%
+  \hypersetup{
+    linkcolor=black,
+    urlcolor=ifopceleste,
+    citecolor=ifopazul
+  }%
+}
+
+% --- Fuentes principales ------------------------------------------------
+% Cuerpo de texto: Arial Narrow | Encabezados: Verdana
+\IfFontExistsTF{Arial Narrow}{%
+  \setmainfont{Arial Narrow}[
+    BoldFont      = {Arial Narrow Bold},
+    ItalicFont    = {Arial Narrow Italic},
+    BoldItalicFont= {Arial Narrow Bold Italic}
+  ]
+  \setsansfont{Arial Narrow}[
+    BoldFont      = {Arial Narrow Bold},
+    ItalicFont    = {Arial Narrow Italic},
+    BoldItalicFont= {Arial Narrow Bold Italic}
+  ]
+}{%
+  \setmainfont{Latin Modern Roman}  % fallback si Arial Narrow no está
+}
+\IfFontExistsTF{Verdana}{%
+  \newfontfamily\verdanafont{Verdana}
+}{%
+  \newcommand{\verdanafont}{\bfseries}  % fallback 
+}
+
+% ── Colores institucionales IFOP ─────────────────────────────────────────────
+\definecolor{ifopblanco}{HTML}{FFFFFF}
+\definecolor{ifopazul}{HTML}{00467F}
+\definecolor{ifopceleste}{HTML}{5B9BD5}
+\definecolor{ifopgris}{HTML}{666666}
+\definecolor{ifopgrisclaro}{HTML}{BDBDBD}
+
+% --- Texto justificado por defecto -------------------------
+\justifying
+
+% --- Espaciado entre párrafos ------------------------------
+\setlength{\parskip}{6pt}
+\setlength{\parindent}{0pt}
+
+% --- Posición del encabezado -----------------------------------
+% \topmargin controla la distancia desde el borde superior de la
+% hoja hasta el encabezado. Valores más negativos = más arriba.
+%
+% Fórmula práctica:
+%   distancia filo→logo = 1in(2.54cm) + \topmargin + \voffset
+%
+% Para tener 1cm entre el filo y el logo:
+%   \topmargin = 1cm - 2.54cm = -1.54cm
+%
+% Ajusta SOLO la primera línea si quieres mover el encabezado:
+%   más negativo  → encabezado más arriba
+%   más positivo  → encabezado más abajo
+
+\setlength{\headheight}{2.5cm}
+\setlength{\headsep}{0.2cm}
+\setlength{\topmargin}{-1.54cm}     % ← AJUSTA ESTE VALOR
+\setlength{\textheight}{21cm}       % área de texto
+\setlength{\footskip}{1cm}          % espacio para: nº página + línea + 2 líneas subtítulo
+
+% ============================================================
+% FORMATO DE CAPÍTULOS Y SECCIONES (estilo IFOP)
+% ============================================================
+
+% H1 (chapter): Verdana 13pt bold + regla azul debajo
+\titleformat{\chapter}[block]
+  {\verdanafont\fontsize{13}{16}\selectfont\bfseries}
+  {\thechapter.\ }{0em}{}
+  [\vspace{1pt}{\color{ifopazul}\rule{\linewidth}{1pt}}]
+\titlespacing*{\chapter}{0pt}{0pt}{10pt}
+
+% H2 (section): Verdana 13pt bold
+\titleformat{\section}
+  {\verdanafont\fontsize{13}{16}\selectfont\bfseries}
+  {\thesection}{1em}{}
+\titlespacing*{\section}{0pt}{14pt}{6pt}
+
+% H3 (subsection): Verdana 13pt bold
+\titleformat{\subsection}
+  {\verdanafont\fontsize{13}{16}\selectfont\bfseries}
+  {\thesubsection}{1em}{}
+\titlespacing*{\subsection}{0pt}{10pt}{4pt}
+
+% H4 (subsubsection): Verdana 13pt bold
+\titleformat{\subsubsection}
+  {\verdanafont\fontsize{13}{16}\selectfont\bfseries}
+  {\thesubsubsection}{1em}{}
+\titlespacing*{\subsubsection}{0pt}{8pt}{3pt}
+
+% ============================================================
+% ENCABEZADO Y PIE DE PÁGINA (estilo interior IFOP)
+% ============================================================
+\pagestyle{fancy}
+\fancyhf{}
+
+% -- Encabezado: logo centrado + institución + línea punteada
+\fancyhead[C]{%
+  \begin{minipage}[b]{\textwidth}
+    \centering
+    % Logo: descomentar cuando exista img/Logos/ifop-pez-a-opt.png Logo optimizado para usar en informe pdf.
+    \IfFileExists{img/Logos/ifop-pez-a-opt.png}{%
+      \includegraphics[height=1.1cm]{img/Logos/ifop-pez-a-opt.png}%
+    }{%
+      {\bfseries\color{ifopazul} [IFOP]}%   % placeholder sin logo
+    }\\[3pt]
+    {\fontsize{7}{8}\selectfont\color{ifopgris}%
+      \textls[150]{INSTITUTO DE FOMENTO PESQUERO / DIVISIÓN INVESTIGACIÓN PESQUERA}}\\[-5pt]
+    \textcolor{ifopgris}{\rule{\linewidth}{0.3pt}}%  % línea fina gris
+  \end{minipage}%
+}
+
+% --- Texto del pie de página (definido una sola vez) ----------
+\newcommand{\ifoppie}{%
+  \fontsize{6.5}{8}\selectfont\color{black}%
+  Estatus y posibilidades de explotación biológicamente
+  sustentables de los principales recursos pesqueros nacionales,
+  año 2027: Congrio Dorado en el área marítima comprendida entre
+  las regiones de Los Lagos a la de Magallanes y de la Antártica
+  Chilena y fuera de su unidad de pesquería.%
+}
+
+% -- Pie: número + línea gris + subtítulo
+\fancyfoot[C]{%
+  {\small\thepage}\\[-3pt]
+  \textcolor{ifopgris}{\rule{\linewidth}{0.3pt}}\\[2pt]
+  \parbox{\textwidth}{\centering\ifoppie}%
+}
+
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% -- Mismo estilo en páginas de inicio de capítulo (plain)
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \fancyhead[C]{%
+    \begin{minipage}[b]{\textwidth}
+      \centering
+      \IfFileExists{img/Logos/ifop-pez-a-opt.png}{%
+        \includegraphics[height=1.1cm]{img/Logos/ifop-pez-a-opt.png}%
+      }{%
+        {\bfseries\color{ifopazul} [IFOP]}%
+      }\\[3pt]
+      {\fontsize{7}{8}\selectfont\color{ifopgris}%
+        \textls[150]{INSTITUTO DE FOMENTO PESQUERO / DIVISIÓN INVESTIGACIÓN PESQUERA}}\\[-5pt]
+      \textcolor{ifopgris}{\rule{\linewidth}{0.3pt}}%  % línea fina gris
+    \end{minipage}%
+  }
+  \fancyfoot[C]{%
+    {\small\thepage}\\[-3pt]
+    \textcolor{ifopgris}{\rule{\linewidth}{0.3pt}}\\[2pt]
+    \parbox{\textwidth}{\centering\ifoppie}%
+  }
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+
+% --- Captions -----------------------------------------------
+% Tamaño fijo 11pt para leyendas de figuras y tablas
+\DeclareCaptionFont{fontcapt}{\fontsize{11}{13.5}\selectfont}
+\captionsetup{
+  font=fontcapt,
+  labelfont={fontcapt, bf},
+  labelsep=period,
+  justification=justified,
+  singlelinecheck=false
+}

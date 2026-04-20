@@ -1,0 +1,21 @@
+{
+  "hash": "c78af837903836832a419c700f32c8fc",
+  "result": {
+    "engine": "knitr",
+    "markdown": "# Resumen Ejecutivo {.unnumbered}\n\n\n::: {.cell}\n\n:::\n\n\n<!-- Resumen ejecutivo del informe. Máximo 1 página. -->\n<!-- Incluir: contexto, objetivo, principales resultados, recomendación de cuota -->\n",
+    "supporting": [
+      "index_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {
+      "knitr": [
+        "{\"type\":\"list\",\"attributes\":{},\"value\":[]}"
+      ]
+    },
+    "preserve": null,
+    "postProcess": false
+  }
+}

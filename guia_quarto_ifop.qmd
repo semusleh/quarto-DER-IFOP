@@ -1,0 +1,870 @@
+---
+title: "Guía de uso y edición del Formato Quarto Libro IFOP"
+subtitle: "Plantilla de informe de evaluación de stock"
+author:
+  - name: "División Investigación Pesquera"
+    affiliation: "Instituto de Fomento Pesquero (IFOP)"
+date: today
+date-format: "DD [de] MMMM [de] YYYY"
+lang: es
+format:
+  pdf:
+    documentclass: article
+    papersize: letter
+    toc: true
+    toc-depth: 3
+    toc-title: "Tabla de Contenidos"
+    number-sections: true
+    colorlinks: true
+    geometry:
+      - top=2.5cm
+      - bottom=2.5cm
+      - left=2.5cm
+      - right=2cm
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+# ¿Qué es este formato?
+
+Este documento describe cómo está organizado y cómo funciona la plantilla Quarto tipo libro configurada para los informes de evaluación de stock de IFOP. Está pensado para que cualquier investigador del departamento pueda:
+
+- Entender qué hace cada archivo del proyecto.
+- Adaptar la plantilla a un recurso específico (congrio, merluza, lenguado, etc.).
+- Compartir el formato con colegas con instrucciones claras.
+
+::: {.callout-note}
+Esta plantilla produce dos formatos de salida desde el mismo código fuente: un **PDF** con portada institucional, encabezado y pie de página con logo IFOP, y tabla de contenidos; y una **versión HTML** navegable con barra superior azul, logo institucional y sidebar con los capítulos y secciones del informe.
+:::
+
+# Estructura de archivos del proyecto
+
+La plantilla sigue la siguiente estructura de carpetas y archivos:
+
+```
+CD-2027/
+├── _quarto.yml               ← Configuración central del libro
+├── _variables.yml            ← Variables reutilizables (año, especie, autores)
+│
+├── index.qmd                 ← Resumen ejecutivo (sin número)
+├── 02_objetivos.qmd          ← Objetivos general y específico
+├── 03_antecedentes.qmd       ← Antecedentes compartidos
+│
+├── 04_demersal.qmd           ← Cap. 4: orquestador Pesquería Demersal Austral
+├── 04a_demersal-met.qmd      ←   4.1 Metodología
+├── 04b_demersal-res.qmd      ←   4.2 Resultados (orquestador de sub-archivos)
+├── 04c_demersal-disc.qmd     ←   4.3 Discusión
+│
+├── 05_fup.qmd                ← Cap. 5: orquestador FUP
+├── 05a_fup-met.qmd           ←   5.1 Metodología
+├── 05b_fup-res.qmd           ←   5.2 Resultados (orquestador de sub-archivos)
+├── 05c_fup-disc.qmd          ←   5.3 Discusión
+│
+├── 06_referencias.qmd        ← Referencias bibliográficas
+├── anexos.qmd                ← Anexos
+│
+├── ref/                      ← Bibliografía y estilos de cita
+│   ├── congrio_dorado.bib
+│   └── elsevier-harvard.csl
+│
+├── styles/                   ← Archivos de formato
+│   ├── doc-settings.tex      ← Fuentes, encabezado, pie, títulos, colores (PDF)
+│   ├── portada-completa.tex  ← Portada (TikZ) + ficha técnica (PDF)
+│   ├── contraportada-ifop.tex← Contraportada (PDF)
+│   └── styles-html.css       ← Estilos exclusivos de la versión HTML
+│
+└── img/                      ← Imágenes del informe
+    ├── Logos/
+    │   ├── ifop-pez-a-opt.png← Logo IFOP color optimizado (encabezado PDF)
+    │   └── ifop-pez-bl-opt.png← Logo IFOP blanco optimizado (navbar HTML)
+    ├── Fondo-portada.png     ← Imagen de fondo de la portada
+    └── Fondo-contraportada.png
+```
+
+::: {.callout-note}
+El archivo más importante es `_quarto.yml`. Controla qué capítulos se incluyen, el formato de salida y los márgenes. Si un archivo `.qmd` no aparece listado en `_quarto.yml`, no forma parte del libro aunque exista en la carpeta.
+:::
+
+# El archivo `_quarto.yml` — Configuración central
+
+## Información del libro
+
+```yaml
+book:
+  title: "Evaluación de Stock de Congrio Dorado"
+  subtitle: "Chile — Pesquería Demersal Austral y FUP"
+  author:
+    - name: "{{</* var autores.principal */>}}"
+      affiliation: "Instituto de Fomento Pesquero (IFOP)"
+  date: "{{</* var anio */>}}"
+  date-format: "YYYY"
+  language: es
+```
+
+Los campos `{{</* var nombre */>}}` se reemplazan automáticamente con los valores definidos en `_variables.yml`.
+
+## Lista de capítulos
+
+```yaml
+  chapters:
+    - index.qmd               # Resumen ejecutivo
+    - 02_objetivos.qmd
+    - 03_antecedentes.qmd
+    - 04_demersal.qmd         # Pesquería Demersal Austral
+    - 05_fup.qmd              # FUP
+    - 06_referencias.qmd
+
+  appendices:
+    - anexos.qmd
+```
+
+El orden determina el orden de aparición en el PDF. Para excluir un capítulo sin borrarlo, basta comentar su línea. Los archivos bajo `appendices:` reciben numeración de anexo (A, B, C...) en vez de numeración de capítulo.
+
+## Nombre del archivo de salida
+
+En libros Quarto, el nombre del archivo de salida se controla desde `project:`, no desde `format:`. El valor de `output-file` aquí es el **nombre base sin extensión** — Quarto le agrega `.pdf` o `.html` según el formato que se compile.
+
+```yaml
+project:
+  type: book
+  output-dir: _book
+  output-file: "Informe_tecnico_asesoria_CD_2027"   # ← nombre base sin extensión
+```
+
+Esto es independiente del `book: title:`, que solo afecta el título que aparece dentro del documento. Si se omite `output-file`, Quarto deriva el nombre del archivo a partir del título, lo que puede generar nombres con espacios o caracteres especiales.
+
+::: {.callout-note}
+Para HTML, Quarto genera una **carpeta** con un archivo `.html` por capítulo, no un único archivo. El nombre de esa carpeta es `output-dir`. El `output-file` aplica principalmente al PDF.
+:::
+
+## Bibliografía
+
+```yaml
+bibliography:
+  - ref/congrio_dorado.bib
+csl: ref/elsevier-harvard.csl
+```
+
+## Configuración del PDF
+
+```yaml
+format:
+  pdf:
+    documentclass: book
+    classoption: [12pt, oneside, openany]
+    papersize: letter
+    toc: true
+    toc-depth: 3
+    toc-title: "Tabla de Contenidos"
+    number-sections: true
+    pdf-engine: lualatex
+    include-in-header:
+      - styles/doc-settings.tex      # fuentes, colores, encabezado, pie
+    include-before-body:
+      - styles/portada-completa.tex  # portada + ficha técnica
+    include-after-body:
+      - styles/contraportada-ifop.tex
+    geometry:
+      - top=4cm
+      - bottom=2.5cm
+      - left=3cm
+      - right=2.5cm
+    fig-pos: "H"
+    fig-cap-location: bottom
+    tbl-cap-location: top
+    fig-width: 6
+    fig-height: 4
+    out-width: "100%"
+```
+
+| Parámetro | Qué controla | Valor actual |
+|---|---|---|
+| `papersize` | Tamaño de página | letter (carta) |
+| `classoption: 12pt` | Tamaño de fuente del cuerpo | 12pt |
+| `classoption: oneside` | Impresión a una cara | sin distinción par/impar |
+| `classoption: openany` | Capítulos en cualquier página | sin páginas en blanco |
+| `toc-depth` | Niveles en la tabla de contenidos | 3 (hasta `###`) |
+| `fig-width / fig-height` | Tamaño por defecto de figuras | 6 × 4 pulgadas |
+| `geometry top` | Margen superior | 4 cm |
+
+: Parámetros clave de la sección `format: pdf` {tbl-colwidths="[25,50,25]"}
+
+## Configuración del HTML
+
+```yaml
+format:
+  html:
+    theme: cosmo                   # tema visual base (ver lista abajo)
+    css: styles/styles-html.css    # estilos IFOP adicionales
+    toc: true
+    toc-depth: 3
+    toc-title: "Contenidos"
+    number-sections: true
+    embed-resources: false         # true = un único .html autocontenido por capítulo
+```
+
+Los temas disponibles en Quarto HTML son: `cosmo`, `flatly`, `litera`, `lumen`, `minty`, `pulse`, `sandstone`, `simplex`, `sketchy`, `slate`, `solar`, `spacelab`, `united`, `yeti`. Para cambiar el tema, reemplazar el valor de `theme:`.
+
+## Control de ejecución
+
+```yaml
+execute:
+  echo: false      # no muestra el código R en el documento
+  warning: false   # suprime advertencias de R
+  message: false   # suprime mensajes de R (ej. los de library())
+  cache: true      # cachea resultados de chunks para no re-ejecutar si no cambian
+  freeze: auto     # usa resultados guardados si el .qmd no ha cambiado
+```
+
+# El archivo `_variables.yml` — Variables globales
+
+Define los valores que identifican el informe. Si cambia un dato (ej. el año), se edita en un solo lugar y se propaga a todos los capítulos.
+
+```yaml
+anio: 2027
+anio_datos: 2025
+especie: "Congrio Dorado"
+nombre_cientifico: "*Genypterus blacodes*"   # asteriscos = cursiva en markdown
+
+autores:
+  principal: "Selim Musleh Vega"
+  coautores: "Renzo Tascheri Oyaneder"
+
+institucion:
+  nombre: "Instituto de Fomento Pesquero"
+  sigla: "IFOP"
+  division: "División de Investigación Pesquera"
+  departamento: "Evaluación de Recursos"
+```
+
+Para usar una variable en el texto de cualquier capítulo:
+
+```markdown
+La evaluación de {{</* var especie */>}} ({{</* var nombre_cientifico */>}})
+corresponde al año {{</* var anio */>}}.
+```
+
+Para acceder a campos anidados se usa notación de punto:
+
+```markdown
+{{</* var institucion.sigla */>}}           → IFOP
+{{</* var institucion.departamento */>}}    → Evaluación de Recursos
+```
+
+::: {.callout-warning}
+Las variables YAML solo admiten texto simple. No se pueden hacer cálculos con ellas ni pasarlas directamente a un chunk R. Para valores calculados en R, usar expresiones inline: `` `r mi_variable` ``. Para leer variables YAML desde R: `yaml::read_yaml(here::here("_variables.yml"))`.
+:::
+
+# Portada y ficha técnica — `styles/portada-completa.tex`
+
+La portada se genera completamente en LaTeX usando TikZ para superponer texto sobre la imagen de fondo. Todos los textos son editables directamente en el archivo `.tex`, sin depender de un programa de diseño externo.
+
+## Estructura del archivo
+
+`portada-completa.tex` contiene dos páginas seguidas:
+
+| Página | Contenido |
+|---|---|
+| Página 1 | Portada: imagen de fondo + textos superpuestos con TikZ |
+| Página 2 | Ficha técnica: logo, título, requirente, ejecutor, autores |
+
+## Cómo cambiar los textos de la portada
+
+Los textos están organizados en nodos TikZ con posiciones absolutas en cm desde las esquinas de la página. Las coordenadas `+(X cm, -Y cm)` se leen como: X cm desde el borde izquierdo, Y cm desde el borde superior.
+
+```latex
+% ─── NODO 1: Tipo de documento + Convenio ──────────────────────
+\node[anchor=north west, align=left, text width=12.5cm]
+  at ($(current page.north west)+(0.75cm,-2cm)$) {%
+    {\fontspec{Arial}\fontsize{28}{34}\selectfont\bfseries\color{ifopblanco}%
+      DOCUMENTO TÉCNICO ASESORÍA GESTIÓN TÉCNICA}\\[14pt]%
+    {\fontspec{Arial}\fontsize{20}{34}\selectfont\bfseries\color{ifopblanco}%
+      Convenio de Desempeño 2027}%   ← CAMBIAR AÑO AQUÍ
+};
+
+% ─── NODO 2: Título largo del informe ───────────────────────────
+\node[anchor=north west, align=left, text width=12.5cm]
+  at ($(current page.north west)+(0.75cm,-10cm)$) {%
+    {\fontspec{Arial}\fontsize{15}{22.5}\selectfont\color{ifopblanco}%
+      Estatus y Posibilidades de Explotación...  ← CAMBIAR TÍTULO AQUÍ
+    }%
+};
+
+% ─── NODO 3: Mandante y fecha ────────────────────────────────────
+\node[anchor=north west, align=left, text width=12.5cm]
+  at ($(current page.north west)+(0.75cm,-15cm)$) {%
+    {\fontspec{Arial}\fontsize{14}{17}\selectfont\color{ifopblanco}%
+      Subsecretaría de Economía y EMT\\[3pt]Marzo 2027}%   ← CAMBIAR AQUÍ
+};
+```
+
+## Cómo cambiar la ficha técnica (página 2)
+
+```latex
+% Requirente
+{\color{ifopceleste}\bfseries Requirente}\\
+{\bfseries Subsecretaría de Economía y Empresas de Menor Tamaño}\\
+{\itshape Karlfranz Koehler Duncker}       ← nombre del requirente
+
+% Jefe de proyecto (dentro del bloque Ejecutor)
+{\itshape Selim Musleh Vega}               ← jefe de proyecto
+
+% Autores
+{\itshape Selim Musleh Vega}\\
+{\itshape Renzo Tascheri Oyaneder}         ← lista de autores
+```
+
+# Encabezado, pie de página y fuentes — `styles/doc-settings.tex`
+
+Este archivo controla el encabezado, el pie de página, las fuentes y el estilo de los títulos. Es el archivo central de formato interior del documento.
+
+## Fuentes
+
+```latex
+% Cuerpo del texto: Arial Narrow 12pt
+\setmainfont{Arial Narrow}[
+  BoldFont       = {Arial Narrow Bold},
+  ItalicFont     = {Arial Narrow Italic},
+  BoldItalicFont = {Arial Narrow Bold Italic}
+]
+
+% Encabezados H1–H4: Verdana 13pt bold
+\newfontfamily\verdanafont{Verdana}
+```
+
+## El encabezado
+
+```latex
+\fancyhead[C]{%
+  \begin{minipage}[b]{\textwidth}
+    \centering
+    \includegraphics[height=1.1cm]{img/Logos/ifop-pez-a-opt.png}\\[3pt]
+    {\fontsize{7}{8}\selectfont\color{ifopgris}%
+      INSTITUTO DE FOMENTO PESQUERO /    ← CAMBIAR TEXTO AQUÍ
+      DIVISIÓN INVESTIGACIÓN PESQUERA}\\[-5pt]
+    \textcolor{ifopgris}{\rule{\linewidth}{0.3pt}}
+  \end{minipage}%
+}
+```
+
+Para cambiar el logo: reemplazar la ruta de la imagen. Para cambiar el texto: editar la línea entre llaves.
+
+## El pie de página
+
+El texto del pie se define una sola vez con `\newcommand{\ifoppie}` y luego se llama desde los dos estilos de página (`fancy` y `plain`). Esto evita tener que editar el texto en dos lugares distintos al adaptar la plantilla.
+
+```latex
+% ─── Definir el texto del pie (una sola vez) ─────────────────
+\newcommand{\ifoppie}{%
+  \fontsize{6.5}{8}\selectfont\color{black}%
+  \textit{Texto del pie de página del informe.}%   ← CAMBIAR AQUÍ
+}
+
+% ─── Aplicar en estilo fancy (páginas normales) ───────────────
+\fancyfoot[C]{%
+  {\small\thepage}\\[-3pt]
+  \textcolor{ifopgris}{\rule{\linewidth}{0.3pt}}\\[2pt]
+  \parbox{\textwidth}{\centering\ifoppie}%
+}
+
+% ─── Aplicar en estilo plain (primera página de cada capítulo)
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \fancyhead[C]{...}
+  \fancyfoot[C]{%
+    {\small\thepage}\\[-3pt]
+    \textcolor{ifopgris}{\rule{\linewidth}{0.3pt}}\\[2pt]
+    \parbox{\textwidth}{\centering\ifoppie}%   ← mismo comando
+  }
+}
+```
+
+Para cambiar el texto del pie al adaptar la plantilla, editar **únicamente** el contenido dentro de `\newcommand{\ifoppie}{...}`.
+
+## Colores institucionales
+
+```latex
+\definecolor{ifopazul}{HTML}{00467F}      % azul IFOP (títulos, líneas)
+\definecolor{ifopceleste}{HTML}{5B9BD5}   % celeste (subtítulos ficha técnica)
+\definecolor{ifopgris}{HTML}{666666}      % gris (encabezado, pie)
+\definecolor{ifopblanco}{HTML}{FFFFFF}    % blanco (texto portada)
+```
+
+# El sistema de include — `{{< include >}}`
+
+## ¿Qué hace?
+
+La directiva `{{< include archivo.qmd >}}` inserta el contenido de otro archivo `.qmd` directamente en el punto donde se escribe, como si fuera texto del mismo archivo. El resultado final es un único documento continuo.
+
+## ¿Por qué se usa?
+
+Los capítulos de Resultados y Metodología son los más extensos y los que más cambian. Separarlos en archivos más pequeños permite:
+
+- Trabajar en una sección sin abrir ni afectar las otras.
+- Re-ejecutar solo el archivo que cambió (con `freeze: auto`).
+- Que dos personas trabajen en el mismo capítulo sin conflictos en Git.
+
+## Estructura de orquestador
+
+Los archivos de capítulo funcionan como orquestadores que llaman a los sub-archivos:
+
+```markdown
+<!-- 04_demersal.qmd — Capítulo orquestador -->
+
+# Pesquería Demersal Austral
+
+{{</* include 04a_demersal-met.qmd */>}}
+
+{{</* include 04b_demersal-res.qmd */>}}
+
+{{</* include 04c_demersal-disc.qmd */>}}
+```
+
+Y el archivo de resultados puede ser a su vez un orquestador:
+
+```markdown
+<!-- 04b_demersal-res.qmd — Resultados orquestador -->
+
+## Resultados
+
+{{</* include 04b1_demersal-cpue.qmd */>}}
+
+{{</* include 04b2_demersal-assess.qmd */>}}
+
+{{</* include 04b3_demersal-retro.qmd */>}}
+
+{{</* include 04b4_demersal-proj.qmd */>}}
+```
+
+## Reglas importantes
+
+Los archivos incluidos con `{{< include >}}` **no se declaran en `_quarto.yml`** — solo se declara el orquestador principal.
+
+Cada sub-archivo debe usar el nivel de título correcto. Si el orquestador tiene `# Capítulo`, los incluidos usan `## Sección` o inferior.
+
+Los chunks de carga de librerías (`library()`) deben marcarse con `cache: false` para que siempre se ejecuten:
+
+```{{r}}
+#| label: setup-resultados
+#| cache: false
+library(here)
+library(r4ss)
+```
+
+# Cache y freeze — compilación eficiente
+
+## ¿Qué es el cache?
+
+Con `cache: true`, Quarto guarda los resultados de cada chunk de R después de ejecutarlo. En la próxima compilación, si el código del chunk no cambió, usa el resultado guardado sin re-ejecutar.
+
+Los archivos de cache se guardan en una carpeta `*_cache/` junto al `.qmd`. Se pueden borrar para forzar la re-ejecución.
+
+## ¿Qué es freeze?
+
+Con `freeze: auto`, si el archivo `.qmd` completo no ha cambiado desde la última compilación, Quarto usa el resultado previo del archivo entero sin ejecutar ningún chunk.
+
+Los resultados congelados se guardan en `_freeze/` en la raíz del proyecto:
+
+```
+_freeze/
+├── 04b_demersal-res/
+│   └── execute-results/
+│       └── html.json    ← resultado del último render
+└── 05b_fup-res/
+    └── execute-results/
+        └── html.json
+```
+
+## ¿Cuándo se re-ejecuta un archivo?
+
+| Situación | ¿Se re-ejecuta? |
+|---|---|
+| El archivo `.qmd` no cambió | No (usa freeze) |
+| Se modificó texto sin tocar chunks | No (usa freeze) |
+| Se modificó el código de un chunk | Sí |
+| Se agregó un chunk nuevo | Sí |
+| Se borró la carpeta `_freeze/` | Sí (siempre) |
+| Se corrió `quarto render --no-freeze` | Sí (siempre) |
+
+: Comportamiento de `freeze: auto` {tbl-colwidths="[65,35]"}
+
+## ¿Cuándo conviene borrar el cache o el freeze?
+
+Es necesario cuando los datos de entrada cambiaron pero el código del chunk no, o cuando los resultados se ven desactualizados sin razón aparente.
+
+```bash
+# Forzar re-ejecución completa (desde terminal en la raíz del proyecto)
+quarto render --no-freeze --to pdf
+```
+
+## Ventaja con la estructura de include
+
+La combinación de `{{< include >}}` + `freeze: auto` es especialmente útil en informes con cómputo pesado (modelos SS3, JJM, WHAM). Si solo se modificó el archivo de proyecciones, Quarto solo re-ejecuta ese archivo y congela los demás. Las horas de cómputo del assessment y retrospectivo no se repiten.
+
+# Análisis complejos — archivos de pre-procesamiento
+
+Cuando los análisis que sustentan el informe involucran modelos computacionalmente intensivos — como SS3, ADMB, JJM, WHAM u otros — no conviene correrlos dentro del flujo de compilación del libro. La solución es separarlos en un archivo Quarto independiente que se ejecuta **antes** de compilar el informe, y cuyos resultados quedan guardados para que el libro simplemente los lea.
+
+## Estructura recomendada
+
+```
+CD-2027/
+├── 00_ss3-FUP.qmd          ← análisis pesado: corre el modelo y guarda resultados
+│
+├── modelos/
+│   ├── FUP/
+│   │   ├── inputs/         ← archivos de entrada del modelo (dat, ctl, par, etc.)
+│   │   ├── outputs/        ← salidas del modelo (Report.sso, CompReport.sso, etc.)
+│   │   └── resultados.rda  ← objeto R con los elementos listos para el informe
+│   └── Demersal/
+│       ├── inputs/
+│       ├── outputs/
+│       └── resultados.rda
+│
+├── 05_fup.qmd              ← capítulo del informe: solo lee resultados.rda
+└── ...
+```
+
+## El archivo de pre-procesamiento (`00_ss3-FUP.qmd`)
+
+Este archivo corre el modelo, procesa sus salidas y guarda los objetos R necesarios en un `.rda`. Es un archivo Quarto normal, pero **no está listado en `chapters:` del `_quarto.yml`**, por lo que no forma parte del libro compilado.
+
+```yaml
+# Encabezado del archivo 00_ss3-FUP.qmd
+---
+title: "Pre-procesamiento SS3 — FUP"
+format: html
+execute:
+  freeze: auto    # no se re-ejecuta si el archivo no ha cambiado
+  cache: false
+---
+```
+
+El contenido típico de este archivo:
+
+```{{r}}
+#| label: correr-ss3
+#| eval: true
+
+library(r4ss)
+library(here)
+
+# Leer salidas del modelo
+modelo <- SS_output(
+  dir   = here("modelos", "FUP", "outputs"),
+  verbose = FALSE,
+  printstats = FALSE
+)
+
+# Preparar objetos para el informe
+cpue_obs   <- modelo$cpue
+biomasa    <- modelo$timeseries
+parametros <- modelo$parameters
+
+# Guardar en archivo .rda para que el libro los lea
+save(cpue_obs, biomasa, parametros,
+     file = here("modelos", "FUP", "resultados.rda"))
+```
+
+## Leer los resultados en el capítulo del libro
+
+En el capítulo correspondiente del libro (`05_fup.qmd` o sus sub-archivos), los objetos se cargan con una sola línea al inicio:
+
+```{{r}}
+#| label: setup-fup
+#| cache: false
+
+load(here::here("modelos", "FUP", "resultados.rda"))
+# A partir de aquí, cpue_obs, biomasa y parametros están disponibles
+```
+
+## Flujo de trabajo
+
+```
+1. Editar inputs del modelo en modelos/FUP/inputs/
+         ↓
+2. Correr 00_ss3-FUP.qmd manualmente (una sola vez)
+         ↓
+3. Se generan outputs en modelos/FUP/outputs/
+   y se guarda modelos/FUP/resultados.rda
+         ↓
+4. Compilar el libro: quarto render --to pdf
+   (el libro solo lee resultados.rda, no re-corre el modelo)
+```
+
+## Por qué usar `freeze: auto` en el archivo de pre-procesamiento
+
+Con `freeze: auto`, el archivo `00_ss3-FUP.qmd` no se re-ejecuta al compilar el libro a menos que su contenido haya cambiado. Esto significa que el modelo SS3 solo corre cuando realmente hay cambios en el código de análisis — no en cada compilación del informe.
+
+Para forzar una re-ejecución del pre-procesamiento cuando cambiaron los datos de entrada pero no el código:
+
+```bash
+# Borrar el freeze solo de ese archivo
+quarto render 00_ss3-FUP.qmd --no-freeze
+
+# Luego compilar el libro normalmente
+quarto render --to pdf
+```
+
+::: {.callout-note}
+Aunque `00_ss3-FUP.qmd` no aparece en el libro compilado, mantenerlo en la misma carpeta del proyecto garantiza trazabilidad completa: cualquier persona que tenga la carpeta puede reproducir los resultados corriendo primero el archivo de pre-procesamiento y luego el libro.
+:::
+
+# Versión HTML — configuración y estilo
+
+La versión HTML del informe se genera desde el mismo código fuente que el PDF. No requiere LaTeX y produce una carpeta `_book/` con un archivo `.html` por capítulo, navegable en cualquier navegador.
+
+## Título en la versión HTML
+
+El título que aparece en la barra superior (navbar) y en la pestaña del navegador proviene de `book: title:` en `_quarto.yml`. Este valor es **independiente** del título que aparece en la portada PDF, que se edita directamente en `styles/portada-completa.tex`. Al adaptar la plantilla conviene mantener un título corto en `book: title:` pensando en cómo se verá en el navegador.
+
+## Barra superior (navbar)
+
+La navbar se configura bajo `book:` en `_quarto.yml`:
+
+```yaml
+book:
+  navbar:
+    background: "#00467F"                    # ← color de fondo (azul IFOP)
+    logo: "img/Logos/ifop-pez-bl-opt.png"   # ← logo blanco para fondo azul
+    logo-alt: "Logo IFOP"
+```
+
+El logo para HTML es `ifop-pez-bl-opt.png` (versión blanca del logo de pez), distinto al del PDF (`ifop-pez-a-opt.png`, versión a color). Esto es así porque el fondo de la navbar es azul oscuro y el logo blanco contrasta mejor.
+
+## Panel lateral (sidebar)
+
+```yaml
+book:
+  sidebar:
+    style: "docked"       # sidebar fijo a la izquierda
+    search: true          # caja de búsqueda en el sidebar
+    collapse-level: 2     # muestra H2 expandidos; usar 1 para solo capítulos
+```
+
+El parámetro `collapse-level` controla qué niveles de título son visibles en el sidebar sin necesidad de hacer clic:
+
+| Valor | Qué muestra el sidebar |
+|---|---|
+| `1` | Solo capítulos (H1) |
+| `2` | Capítulos + secciones H2 visibles |
+| `3` | Capítulos + H2 + subsecciones H3 visibles |
+
+## Estilos CSS — `styles/styles-html.css`
+
+Este archivo contiene los estilos visuales exclusivos de la versión HTML. No afecta al PDF. Los ajustes más frecuentes son:
+
+```css
+/* Color de fondo de la navbar */
+.navbar {
+  background-color: #00467F !important;   /* ← cambiar color aquí */
+  border-bottom: 3px solid #5B9BD5;
+}
+
+/* Tamaño del título en la navbar */
+.navbar-brand {
+  font-size: 1.6rem;   /* ← agrandar o achicar aquí */
+}
+
+/* Alto máximo del logo en la navbar */
+.navbar-logo {
+  max-height: 55px;    /* ← ajustar si el logo se ve muy grande o pequeño */
+}
+
+/* Color de los títulos H1, H2 dentro del documento */
+h1, h2 {
+  color: #00467F;      /* ← azul IFOP por defecto */
+}
+
+/* Encabezado de las tablas */
+thead tr {
+  background-color: #00467F;
+  color: #FFFFFF;
+}
+```
+
+## Compilar solo la versión HTML
+
+```bash
+quarto render --to html
+```
+
+::: {.callout-note}
+La versión HTML no usa `doc-settings.tex`, `portada-completa.tex` ni ningún archivo `.tex`. Esos archivos solo los procesa LuaLaTeX al generar el PDF.
+:::
+
+# Márgenes y geometría vertical
+
+| Parámetro | Qué controla | Valor actual |
+|---|---|---|
+| `\topmargin` | Ajuste fino margen superior | -1.54 cm |
+| `\headheight` | Alto de la caja del encabezado | 2.5 cm |
+| `\headsep` | Espacio encabezado → texto | 0.2 cm |
+| `\textheight` | Alto del área de texto | 21 cm |
+| `\footskip` | Distancia texto → pie | 1 cm |
+
+: Parámetros de geometría vertical en `doc-settings.tex` {tbl-colwidths="[25,55,20]"}
+
+```
+▲  borde superior
+   │  top= (geometry) + \topmargin
+┌──────────────────────────────────────────────────────┐
+│  ENCABEZADO (logo + texto institucional + línea)     │  ← \headheight
+└──────────────────────────────────────────────────────┘
+   │  \headsep
+┌──────────────────────────────────────────────────────┐
+│   TEXTO PRINCIPAL                                    │  ← \textheight
+└──────────────────────────────────────────────────────┘
+   │  \footskip
+┌──────────────────────────────────────────────────────┐
+│   PIE: número │ línea │ subtítulo del informe         │
+└──────────────────────────────────────────────────────┘
+   │  bottom= (geometry)
+▼  borde inferior
+```
+
+| Problema | Parámetro a ajustar | Dirección |
+|---|---|---|
+| Texto muy cerca del encabezado | `\headsep` | Aumentar |
+| Pie de página desaparece | `\footskip` | Reducir |
+| Encabezado cortado | `\headheight` | Aumentar |
+
+: Guía rápida de ajustes
+
+# Figuras, tablas y referencias cruzadas
+
+## Figuras generadas desde R
+
+```{{r}}
+#| label: fig-biomasa
+#| fig-cap: "Tendencia de biomasa desovante relativa."
+#| fig-width: 6
+#| fig-height: 3.5
+
+plot(1990:2024, cumsum(rnorm(35)), type = "l", col = "#00467F",
+     xlab = "Año", ylab = expression(B/B[0]))
+```
+
+Para citar en el texto: `@fig-biomasa` → **Figura 4.1**.
+
+## Figuras desde archivos en disco
+
+```{{r}}
+#| label: fig-mapa
+#| fig-cap: "Área de distribución."
+#| out-width: "80%"
+
+knitr::include_graphics(here::here("img", "mapa_distribucion.png"))
+```
+
+## Tablas
+
+```{{r}}
+#| label: tbl-parametros
+#| tbl-cap: "Parámetros estimados del modelo base."
+
+knitr::kable(
+  data.frame(Parámetro = c("R0", "h", "M"),
+             Estimado  = c(12500, 0.75, 0.15)),
+  digits = 3, booktabs = TRUE
+)
+```
+
+Para citar en el texto: `@tbl-parametros` → **Tabla 4.2**.
+
+## Referencias bibliográficas
+
+```bibtex
+@article{hilborn1992,
+  author = {Hilborn, Ray and Walters, Carl J.},
+  title  = {Quantitative Fisheries Stock Assessment},
+  year   = {1992}
+}
+```
+
+Para citar en el texto:
+
+```markdown
+El modelo sigue el enfoque de @hilborn1992.
+Entre paréntesis: [@hilborn1992].
+Múltiples citas: [@hilborn1992; @punt2016].
+```
+
+# Rutas relativas — `here::here()`
+
+```r
+# ❌ MAL — ruta absoluta (solo funciona en el equipo donde se escribió)
+datos <- read.csv("C:/Users/selim/Dropbox/CD-2027/datos/cpue.csv")
+
+# ✅ BIEN — funciona en cualquier equipo
+datos <- read.csv(here::here("datos", "cpue.csv"))
+```
+
+```r
+here::here("datos", "cpue.csv")          # → CD-2027/datos/cpue.csv
+here::here("img", "Logos", "logo.png")   # → CD-2027/img/Logos/logo.png
+here::here("model", "outputs", "S1")     # → CD-2027/model/outputs/S1/
+```
+
+# Cómo compilar el documento
+
+```bash
+# Compilar el PDF
+quarto render --to pdf
+
+# Compilar todos los formatos
+quarto render
+
+# Forzar re-ejecución completa ignorando el freeze
+quarto render --no-freeze --to pdf
+
+# Renderizar solo un capítulo
+quarto render 04b_demersal-res.qmd
+```
+
+## Requisitos del sistema
+
+| Software | Para qué | Cómo instalar |
+|---|---|---|
+| Quarto | Motor principal | [quarto.posit.co](https://quarto.posit.co) |
+| R + Positron/RStudio | Ejecutar código R | [posit.co/download](https://posit.co/download) |
+| TinyTeX | Compilar el PDF | `tinytex::install_tinytex()` en R |
+| Paquetes R | r4ss, knitr, here, yaml | `install.packages(...)` |
+
+: Requisitos de software
+
+# Cómo adaptar la plantilla para un nuevo recurso
+
+## Paso 1 — Copiar la carpeta completa
+
+Copiar la carpeta del proyecto con un nuevo nombre (ej. `merluza-sur-2027/`).
+
+## Paso 2 — Editar `_variables.yml`
+
+Reemplazar especie, año, autores y requirente.
+
+## Paso 3 — Actualizar `_quarto.yml`
+
+Cambiar `title`, `subtitle` y `output-file`. Agregar o quitar archivos de `chapters:` según la estructura del nuevo informe.
+
+## Paso 4 — Cambiar textos de la portada
+
+En `styles/portada-completa.tex` editar el contenido de cada nodo TikZ: tipo de documento, convenio, título largo y mandante/fecha (ver sección 5).
+
+## Paso 5 — Cambiar el pie de página
+
+En `styles/doc-settings.tex` editar el texto dentro de `\newcommand{\ifoppie}{...}`. Al estar definido en un solo lugar, el cambio se propaga automáticamente a todas las páginas del documento.
+
+## Paso 6 — Reemplazar imágenes de fondo
+
+Reemplazar `img/Fondo-portada.png` y `img/Fondo-contraportada.png` con el diseño del nuevo informe.
+
+## Paso 7 — Ajustar la versión HTML
+
+En `_quarto.yml`, actualizar el color de la navbar si es necesario y el logo. En `styles/styles-html.css`, ajustar colores o tamaños de fuente. El título corto del libro (`book: title:`) es el que aparece en la barra del navegador y en la navbar HTML.
+
+## Paso 8 — Completar el contenido
+
+Editar cada archivo `.qmd` con el contenido real. Los orquestadores no necesitan cambios — solo s

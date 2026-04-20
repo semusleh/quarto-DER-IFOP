@@ -1,0 +1,30 @@
+# ============================================================
+# Variables globales — Congrio Dorado 2027
+# Editar aquí para propagar cambios en todo el libro
+# ============================================================
+
+anio: 2026
+anio_quota: 2027
+anio_datos: 2025          # último año con datos de captura
+especie: "Congrio Dorado"
+nombre_cientifico: "*Genypterus blacodes*"
+zona: "Chile"
+
+autores:
+  principal: "Renzo Tascheri Oyaneder"
+  coautores: "Selim Musleh Vega"
+
+institucion:
+  nombre: "Instituto de Fomento Pesquero"
+  sigla: "IFOP"
+  division: "División de Investigación Pesquera"
+  departamento: "Evaluación de Recursos"
+  ciudad: "Valparaíso"
+
+requirente:
+  nombre: "Subsecretaría de Economía y Empresas de Menor Tamaño"
+  sigla: "SUBECONOMIA"
+
+proyecto:
+  nombre: "Estatus y posibilidades de explotación biológicamente sustentables de los principales recursos pesqueros nacionales, año 2027: Congrio Dorado en el área marítima comprendida entre las regiones de Los Lagos a la de Magallanes y de la Antártica Chilena y fuera de su unidad de pesquería."
+  codigo: "ASIPA 38-2026"

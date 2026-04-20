@@ -1,0 +1,45 @@
+# ── Quarto: output generado ──────────────────────────────────────────────────
+_book/
+
+# ── Quarto: archivos temporales de sesión ────────────────────────────────────
+# .quarto/ contiene basura de sesiones anteriores (session-temp*)
+# NO incluye _freeze/, que está fuera de .quarto/ y sí debe versionarse
+.quarto/
+
+# ── knitr cache ──────────────────────────────────────────────────────────────
+# Archivos RData de objetos R en memoria. Pesados y regenerables.
+# _freeze/ reemplaza su función para el propósito de reproducibilidad.
+*_cache/
+
+# ── SS3: outputs del modelo ───────────────────────────────────────────────────
+# Los outputs de SS3 pueden pesar cientos de MB (Report.sso, CompReport.sso,
+# covar.sso, etc.). Se excluyen del repo principal.
+# Alternativa recomendada: Zenodo o OSF con DOI para datos de la evaluación.
+analisis/FUP-SS3-outputs/
+
+# Si quieres incluir los inputs SS3 (para reproducibilidad del modelo),
+# comenta la línea anterior y agrega solo los outputs:
+# analisis/FUP-SS3-outputs/**/*.sso
+# analisis/FUP-SS3-outputs/**/*.par
+# analisis/FUP-SS3-outputs/**/admodel.*
+
+# ── Imágenes pesadas ──────────────────────────────────────────────────────────
+*.tiff
+*.tif
+
+# ── Archivos de trabajo local ────────────────────────────────────────────────
+*.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+*.log
+
+# ── Positron: archivos temporales del language server ───────────────────────
+.vdoc.*.r
+
+# ── Sistema operativo ────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+/.quarto/
+**/*.quarto_ipynb

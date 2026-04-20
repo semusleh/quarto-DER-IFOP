@@ -1,0 +1,7 @@
+# Área Fuera de la Unidad de Pesquería (FUP)
+
+{{< include 05a_fup-met.qmd >}}
+
+{{< include 05b_fup-res.qmd >}}
+
+{{< include 05c_fup-disc.qmd >}}

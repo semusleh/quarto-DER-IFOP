@@ -1,0 +1,14 @@
+% contraportada-ifop.tex — Última página del documento
+% Inyectado vía include-after-body en _quarto.yml
+% Usa la página 2 del PDF de tapas como imagen de fondo completa.
+
+\clearpage
+\thispagestyle{empty}
+\newgeometry{top=0cm, bottom=0cm, left=0cm, right=0cm}
+
+\begin{tikzpicture}[remember picture, overlay, inner sep=0pt, outer sep=0pt]
+  \node[anchor=south west] at (current page.south west) {%
+    \includegraphics[page=2, width=\paperwidth, height=\paperheight,
+                     keepaspectratio=false]{img/Portadas/Fondo-contraportada.png}%
+  };
+\end{tikzpicture}

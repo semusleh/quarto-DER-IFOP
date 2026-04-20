@@ -1,0 +1,21 @@
+{
+  "hash": "2a0a3e7033708ccc1552bdc5b775ce5b",
+  "result": {
+    "engine": "knitr",
+    "markdown": "# Pesquería Demersal Austral\n\n<!-- Capítulo orquestador: Norte (regiones XIV–X) + Sur (X–XII) -->\n\n## Metodología\n\n\n::: {.cell}\n\n:::\n\n\n\n## Resultados\n\n<!-- Orquestador de resultados — Pesquería Demersal Austral       -->\n<!-- Descomentar e incluir archivos a medida que se desarrollen:   -->\n<!--                                                               -->\n<!-- {{< include 04b1_demersal-cpue.qmd >}}                       -->\n<!-- {{< include 04b2_demersal-assess.qmd >}}                     -->\n<!-- {{< include 04b3_demersal-sensibilidad.qmd >}}               -->\n<!-- {{< include 04b4_demersal-retro.qmd >}}                      -->\n<!-- {{< include 04b5_demersal-proj.qmd >}}                       -->\n\n\n## Discusión\n\n",
+    "supporting": [
+      "04_demersal_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {
+      "knitr": [
+        "{\"type\":\"list\",\"attributes\":{},\"value\":[]}"
+      ]
+    },
+    "preserve": null,
+    "postProcess": false
+  }
+}

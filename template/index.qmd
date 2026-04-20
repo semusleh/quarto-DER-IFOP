@@ -1,0 +1,9 @@
+# Resumen Ejecutivo {.unnumbered}
+
+```{r setup}
+#| cache: false
+library(here)
+```
+
+<!-- Resumen ejecutivo del informe. Máximo 1 página. -->
+<!-- Incluir: contexto, objetivo, principales resultados, recomendación de cuota -->

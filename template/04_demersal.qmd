@@ -1,0 +1,9 @@
+# Pesquería Demersal Austral
+
+<!-- Capítulo orquestador: Norte (regiones XIV–X) + Sur (X–XII) -->
+
+{{< include 04a_demersal-met.qmd >}}
+
+{{< include 04b_demersal-res.qmd >}}
+
+{{< include 04c_demersal-disc.qmd >}}

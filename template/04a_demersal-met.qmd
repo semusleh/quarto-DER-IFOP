@@ -1,0 +1,6 @@
+## Metodología
+
+```{r setup-demersal-met}
+#| cache: false
+library(here)
+```

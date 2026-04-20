@@ -1,0 +1,21 @@
+{
+  "hash": "85e65ecb37bb231fcbec79b32bec71d2",
+  "result": {
+    "engine": "knitr",
+    "markdown": "# Área Fuera de la Unidad de Pesquería (FUP)\n\n## Metodología\n\n\n::: {.cell}\n\n:::\n\n\n\n## Resultados\n\n<!-- Orquestador de resultados — FUP                              -->\n<!-- Descomentar e incluir archivos a medida que se desarrollen:  -->\n<!--                                                              -->\n<!-- {{< include 05b1_fup-cpue.qmd >}}                           -->\n<!-- {{< include 05b2_fup-assess.qmd >}}                         -->\n<!-- {{< include 05b3_fup-sensibilidad.qmd >}}                   -->\n<!-- {{< include 05b4_fup-retro.qmd >}}                          -->\n<!-- {{< include 05b5_fup-proj.qmd >}}                           -->\n\n\n## Discusión\n\n",
+    "supporting": [
+      "05_fup_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {
+      "knitr": [
+        "{\"type\":\"list\",\"attributes\":{},\"value\":[]}"
+      ]
+    },
+    "preserve": null,
+    "postProcess": false
+  }
+}

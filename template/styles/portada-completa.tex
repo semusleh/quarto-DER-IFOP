@@ -1,0 +1,150 @@
+% portada-completa.tex
+% Página 1: Portada (imagen fondo + texto TikZ superpuesto)
+% Página 2: Ficha técnica institucional
+%
+% Inyectado vía include-before-body en _quarto.yml
+% Requiere: colores-ifop.tex en include-in-header (carga TikZ, xcolor, graphicx)
+% Papel: letter (21.59 cm × 27.94 cm) | motor: xelatex
+% ─────────────────────────────────────────────────────────────────────────────
+% ╔═══════════════════════════════════════════════════════════════════════════╗
+% ║  PÁGINA 1 — PORTADA                                                       ║
+% ╚═══════════════════════════════════════════════════════════════════════════╝
+
+\thispagestyle{empty}
+\newgeometry{top=0cm, bottom=0cm, left=0cm, right=0cm}
+
+\begin{tikzpicture}[remember picture, overlay, inner sep=0pt, outer sep=0pt]
+
+  % ─── Imagen de fondo completa ────────────────────────────────────────────
+  \node[anchor=south west] at (current page.south west) {%
+    \includegraphics[width=\paperwidth, height=\paperheight,
+                     keepaspectratio=false]{img/Portadas/Fondo-portada.png}%
+  };
+
+  % ─── CUADRO 1: Informe de asesoría técnica ──────────────────────────────
+\node[anchor=north west, align=left, text width=12.5cm]
+  at ($(current page.north west)+(0.75cm,-2cm)$) {%
+    {\fontspec{Arial}\fontsize{30}{34.5}\selectfont\bfseries\color{ifopblanco}%
+      INFORME \mbox{TÉCNICO}\\%
+      DE ASESORÍA \par%
+  };
+  };
+
+%   % ─── CUADRO 1: Informe de gestión ──────────────────────────────
+% \node[anchor=north west, align=left, text width=12.5cm]
+%   at ($(current page.north west)+(0.75cm,-2cm)$) {%
+%     {\fontspec{Arial}\fontsize{30}{34.5}\selectfont\bfseries\color{ifopblanco}%
+%       DOCUMENTO \mbox{TÉCNICO}\\%
+%       ASESORÍA GESTIÓN\\%
+%       TÉCNICA \par%
+%     }
+%     {\fontspec{Arial}\fontsize{20}{23}\selectfont\bfseries\color{ifopblanco}%
+%       Convenio de Desempeño 2026 \par%
+%     }%
+%   };
+
+  % ─── CUADRO 2: Título largo del informe ──────────────────────────────────
+  \node[anchor=north west, align=left, text width=12.5cm]
+    at ($(current page.north west)+(0.75cm,-7cm)$) {%
+      {\fontspec{Arial}\fontsize{15}{22.5}\selectfont\color{ifopblanco}%
+        Estatus y posibilidades de explotación biológicamente sustentables de los principales recursos pesqueros nacionales, año 2027: 
+        Congrio Dorado en el área marítima comprendida entre las regiones de Los Lagos a la de Magallanes y de la Antártica Chilena y fuera de su unidad de pesquería.\par}%
+  };
+
+  % ─── CUADRO 3: Mandante y fecha ──────────────────────────────────────────
+  \node[anchor=north west, align=left, text width=12.5cm]
+    at ($(current page.north west)+(0.75cm,-14cm)$) {%
+      {\fontspec{Arial}\fontsize{15}{22.5}\selectfont\bfseries\color{ifopblanco}%
+        Subsecretaría de Economía y EMT\\
+        Septiembre 2026 \par}%
+  };
+
+  % ─── CUADRO 4: Año (esquina superior derecha) ────────────────────────────
+\node[anchor=north west, align=left, text width=5cm]
+  at ($(current page.north west)+(16.3,-2.2cm)$) {%
+    {\fontspec{Arial Black}\fontsize{30}{30}\selectfont\color{ifopgrisclaro}%
+    2026}%
+  };
+
+\node[anchor=north west]
+  at ($(current page.north west)+(2.25cm,-22cm)$) {%
+    \includegraphics[height=1.8cm]{img/Logos/ifop-pez-a-opt.png}%
+  };
+
+\end{tikzpicture}
+\clearpage
+\restoregeometry
+
+% ╔═══════════════════════════════════════════════════════════════════════════╗
+% ║  PÁGINA 2 — FICHA TÉCNICA INSTITUCIONAL                                   ║
+% ╚═══════════════════════════════════════════════════════════════════════════╝
+
+\thispagestyle{empty}
+\newgeometry{top=2cm, bottom=2cm, left=3cm, right=3cm}
+
+% ── Logo IFOP (derecha) ──────────────────────────────────────────────────────
+\begin{flushright}
+  \includegraphics[height=1.8cm]{img/Logos/ifop-pez-a-opt.png}
+
+\vspace{0.8cm}
+
+% ── Encabezado: tipo de documento ────────────────────────────────────────────
+{\fontspec{Arial}\fontsize{18}{18}\selectfont\bfseries\color{ifopazul}%
+  Documento Técnico Asesoría Gestión Técnica\par}
+
+\vspace{0.4cm}
+
+% ── Convenio ─────────────────────────────────────────────────────────────────
+{\fontspec{Arial}\fontsize{12}{15}\selectfont%
+  Convenio de Desempeño 2026\par}
+
+\vspace{0.4cm}
+
+% ── Título del informe ───────────────────────────────────────────────────────
+{\fontspec{Arial}\fontsize{12}{16}\selectfont%
+  Estatus y Posibilidades de Explotación Biológicamente Sustentables
+  de los Principales Recursos Pesqueros Nacionales, año 2026:
+  Congrio Dorado Sur.\par}
+
+\vspace{0.4cm}
+
+% ── Mandante / fecha ─────────────────────────────────────────────────────────
+{\fontspec{Arial}\fontsize{12}{15}\selectfont\bfseries%
+  Subsecretaría de Economía y EMT\,/\,Marzo 2026.\par}
+
+\vspace{0.5cm}
+
+% ── Secciones institucionales (derecha) ──────────────────────────────────────
+
+{\fontspec{Arial}\fontsize{10}{15}\selectfont%
+
+  {\color{ifopceleste}\bfseries Requirente}\\[0.2cm]
+  {\bfseries Subsecretaría de Economía y \\
+  Empresas de Menor Tamaño}\\[0.4cm]
+  Subsecretaría de Economía y \\Empresas de Menor Tamaño\\
+  {\itshape Karlfranz Koehler Duncker}
+
+  \vspace{0.4cm}
+
+  {\color{ifopceleste}\bfseries Ejecutor}\\[0.2cm]
+  {\bfseries Instituto de Fomento Pesquero, IFOP}\\[0.4cm]
+  Director Ejecutivo\\
+  {\itshape Gonzalo Pereira Puchy}\\[0.4cm]
+  Jefe División Investigación Pesquera\\
+  {\itshape Carlos Montenegro Silva}\\[0.4cm]
+  Jefe Departamento de Evaluación de Recursos\\
+  {\itshape Carlos Techeira Tapia}\\[0.4cm]
+  Jefe de Proyecto\\
+  {\itshape Selim Musleh Vega}
+
+  \vspace{0.4cm}
+
+  {\color{ifopceleste}\bfseries Autores}\\[0.2cm]
+  {\itshape Selim Musleh Vega}\\
+  {\itshape Renzo Tascheri Oyaneder}
+
+}
+\end{flushright}
+
+\restoregeometry
+\clearpage

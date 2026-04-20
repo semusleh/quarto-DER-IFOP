@@ -1,0 +1,6 @@
+## Metodología
+
+```{r setup-fup-met}
+#| cache: false
+library(here)
+```

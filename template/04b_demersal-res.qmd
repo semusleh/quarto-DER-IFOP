@@ -1,0 +1,10 @@
+## Resultados
+
+<!-- Orquestador de resultados — Pesquería Demersal Austral       -->
+<!-- Descomentar e incluir archivos a medida que se desarrollen:   -->
+<!--                                                               -->
+<!-- {{< include 04b1_demersal-cpue.qmd >}}                       -->
+<!-- {{< include 04b2_demersal-assess.qmd >}}                     -->
+<!-- {{< include 04b3_demersal-sensibilidad.qmd >}}               -->
+<!-- {{< include 04b4_demersal-retro.qmd >}}                      -->
+<!-- {{< include 04b5_demersal-proj.qmd >}}                       -->
