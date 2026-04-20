@@ -154,6 +154,8 @@ La guía completa de uso y edición está en `guia_quarto_ifop.qmd` (o en el PDF
 
 ## Contacto
 
+Dr. Selim Musleh Vega 
+Correo: [selim.musleh@ifop.cl](mailto:selim.musleh@ifop.cl)
 División de Investigación Pesquera — Departamento de Evaluación de Recursos  
 Instituto de Fomento Pesquero (IFOP)  
 [www.ifop.cl](https://www.ifop.cl)
