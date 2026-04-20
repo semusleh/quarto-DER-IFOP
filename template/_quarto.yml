@@ -35,7 +35,7 @@ book:
     collapse-level: 2    # muestra H2 en el sidebar; usar 1 para solo capítulos
 
 bibliography:
-  - ref/ling_estatus.bib
+  - ref/referencias.bib
 csl: ref/elsevier-harvard.csl
 
 format:

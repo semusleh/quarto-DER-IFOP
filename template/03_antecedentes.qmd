@@ -4,8 +4,16 @@
 
 ## Biología
 
+{{< lipsum 3 >}}
+
 ## Distribución
+
+{{< lipsum 3 >}}
 
 ## Pesquerías
 
+{{< lipsum 3 >}}
+
 ## Administración
+
+{{< lipsum 3 >}}
