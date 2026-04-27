@@ -4,3 +4,5 @@
 #| cache: false
 library(here)
 ```
+
+La redacción y estructuración de este informe contó con asistencia de herramientas de inteligencia artificial generativa. Todos los análisis, estimaciones de parámetros y recomendaciones de manejo fueron realizados con modelos y códigos validados, disponibles en [repositorio GitHub]. La IA no intervino en ninguna etapa analítica ni en la generación de resultados.
